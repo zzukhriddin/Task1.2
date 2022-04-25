@@ -1,41 +1,54 @@
 package com.epam.esm.repository;
 
 import com.epam.esm.entity.Gift;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
+import com.epam.esm.payload.ApiResponse;
+import com.epam.esm.payload.GiftDto;
 
+import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
-@Repository
 public class GiftRepository {
 
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+    public static String data_source_url = "jdbc:postgresql://localhost:5432/computer_db";
+    public static String data_source_username = "postgres";
+    public static String data_source_password = "root123";
 
-
-    public List<Gift> getAll() {
-        return jdbcTemplate.query("SELECT * FROM product", new BeanPropertyRowMapper<>(Gift.class));
+    public List<Gift> getAll() throws SQLException, ClassNotFoundException {
+        List<Gift> giftList = new ArrayList<>();
+        Connection connection = connectDataBase();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from gift order by asc ");
+        while (resultSet.next()){
+            Gift gift = new Gift();
+            gift.setId(resultSet.getLong(1));
+            gift.setName(resultSet.getString(2));
+            gift.setDescription(resultSet.getString(3));
+            gift.setPrice(resultSet.getDouble(4));
+            gift.setDuration(resultSet.getTimestamp(5));
+            gift.setCreate_date(resultSet.getTimestamp(6));
+            gift.setLast_update_date(resultSet.getTimestamp(7));
+            giftList.add(gift);
+       }
+        return giftList;
     }
 
-
-    public Gift getById(Integer id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM gift WHERE id=?", new BeanPropertyRowMapper<>(Gift.class), id);
+    public void save(GiftDto giftDto) {
     }
 
-
-    public int save(Gift gift) {
-        return jdbcTemplate.update("INSERT INTO gift(id, name, description, price) VALUES(?, ?, ?)", new Object[] {gift.getId(),gift.getName(),gift.getDescription(),gift.getPrice()});
+    public void delete(Long id) {
     }
 
-
-    public int update(Gift gift, Long id) {
-        return jdbcTemplate.update("UPDATE gift SET id=?, name=?, description=?, price=? WHERE id=?", new Object[] {gift.getId(),gift.getName(),gift.getDescription(),gift.getPrice(), id});
+    public void edit(Long id) {
     }
 
-
-    public int deleteById(Long id) {
-        return jdbcTemplate.update("DELETE FROM gift WHERE id=?", id);
+    public Connection connectDataBase() throws ClassNotFoundException, SQLException {
+        Class.forName("org.postgresql.Driver");
+        Connection connection = DriverManager.getConnection(
+                data_source_url,
+                data_source_username,
+                data_source_password
+        );
+        return connection;
     }
 }
