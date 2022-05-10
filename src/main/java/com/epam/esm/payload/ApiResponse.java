@@ -9,5 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ApiResponse {
     private String message;
+    private String errorMessage;
+    private int errorCode;
     private boolean success;
+
+    public ApiResponse(String message, boolean success) {
+        this.message = message;
+        this.success = success;
+    }
 }

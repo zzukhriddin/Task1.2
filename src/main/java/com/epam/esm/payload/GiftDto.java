@@ -13,7 +13,7 @@ public class GiftDto {
     private String name;
     private String description;
     private Double price;
-    private Timestamp duration;
+    private int duration;
     private Timestamp create_date;
     private Timestamp last_update_date;
 }

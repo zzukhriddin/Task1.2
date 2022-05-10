@@ -1,12 +1,20 @@
 package com.epam.esm;
 
+import com.epam.esm.config.ApplicationConfig;
+import com.epam.esm.service.GiftService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
+import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.Date;
 
-@SpringBootApplication
 public class Main {
-    public static void main(String[] args) {
-        SpringApplication.run(Main.class, args);
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        System.out.println(new Timestamp(new Date().getTime()));
+
+        ApplicationContext context  = new AnnotationConfigApplicationContext(ApplicationConfig.class);
+
+        GiftService giftService = context.getBean(GiftService.class);
     }
 }
