@@ -1,7 +1,7 @@
 package com.epam.esm;
 
 import com.epam.esm.config.ApplicationConfig;
-import com.epam.esm.service.GiftService;
+import com.epam.esm.service.GiftCertificateService;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
@@ -15,6 +15,6 @@ public class Main {
 
         ApplicationContext context  = new AnnotationConfigApplicationContext(ApplicationConfig.class);
 
-        GiftService giftService = context.getBean(GiftService.class);
+        GiftCertificateService giftService = context.getBean(GiftCertificateService.class);
     }
 }

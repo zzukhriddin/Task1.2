@@ -9,13 +9,30 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GiftRepository {
+public class GiftCertificateRepository {
 
 
 
     public static String data_source_url = "jdbc:postgresql://localhost:5432/epam1";
     public static String data_source_username = "postgres";
     public static String data_source_password = "root123";
+
+    public GiftCertificate getById(Long id) throws SQLException, ClassNotFoundException {
+        Connection connection = connectDataBase();
+        Statement statement = connection.createStatement();
+        ResultSet resultSet = statement.executeQuery("select * from gift where id="+id);
+        GiftCertificate gift = new GiftCertificate();
+        while (resultSet.next()){
+            gift.setId(resultSet.getLong(1));
+            gift.setName(resultSet.getString(2));
+            gift.setDescription(resultSet.getString(3));
+            gift.setPrice(resultSet.getDouble(4));
+            gift.setDuration(resultSet.getInt(5));
+            gift.setCreate_date(resultSet.getTimestamp(6));
+            gift.setLast_update_date(resultSet.getTimestamp(7));
+        }
+        return gift;
+    }
 
     public List<GiftCertificate> getAll() throws SQLException, ClassNotFoundException {
         List<GiftCertificate> giftList = new ArrayList<>();
