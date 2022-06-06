@@ -28,8 +28,19 @@ public class GiftCertificateController {
      */
     @SneakyThrows
     @GetMapping("/{id}")
-    public GiftCertificate getById(@PathVariable Long id){
+    public GiftDto getById(@PathVariable Long id){
         return giftCertificateService.getGiftCertificateById(id);
+    }
+
+    /**
+     * @param name
+     * @return
+     * @throws SQLException
+     * @throws ClassNotFoundException
+     */
+    @GetMapping("/{name}")
+    public GiftCertificate getByName(String name) throws SQLException, ClassNotFoundException {
+        return giftCertificateService.getGiftCertificateByName(name);
     }
 
     /**
@@ -54,19 +65,18 @@ public class GiftCertificateController {
         return giftCertificateService.editGiftCertificateById(id,giftDto);
     }
 
+
     /**
-     *
      * @param giftDto
      * @return HttpEntity
      */
     @PostMapping
-    public HttpEntity<?> saveGift(@RequestBody GiftDto giftDto){
+    public HttpEntity<?> saveGift(@RequestBody GiftDto giftDto) {
         ApiResponse apiResponse = giftCertificateService.saveGiftCertificate(giftDto);
         return ResponseEntity.status(apiResponse.isSuccess()?200:409).body(apiResponse);
     }
 
     /**
-     *a
      * @param id
      * @return HttpEntity
      */

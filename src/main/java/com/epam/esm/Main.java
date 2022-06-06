@@ -11,6 +11,7 @@ import java.util.Date;
 
 public class Main {
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
+
         System.out.println(new Timestamp(new Date().getTime()));
 
         ApplicationContext context  = new AnnotationConfigApplicationContext(ApplicationConfig.class);

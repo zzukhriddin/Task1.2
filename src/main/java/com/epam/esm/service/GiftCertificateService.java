@@ -10,16 +10,21 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Service
+//@ComponentScan
 public class GiftCertificateService {
 
     GiftCertificateRepository giftRepository=new GiftCertificateRepository();
-    public GiftCertificate getGiftCertificateById(Long id) throws SQLException, ClassNotFoundException {
+    public GiftDto getGiftCertificateById(Long id) throws SQLException, ClassNotFoundException {
         return giftRepository.getById(id);
     }
 
+    public GiftCertificate getGiftCertificateByName(String name) throws SQLException, ClassNotFoundException {
+        return giftRepository.getByName(name);
+    }
     public List<GiftCertificate> getAllGiftCertificate() throws SQLException, ClassNotFoundException {
         return giftRepository.getAll();
     }
+
     public ApiResponse saveGiftCertificate(GiftDto giftDto) {
         try {
             giftRepository.save(giftDto);
